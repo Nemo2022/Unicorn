@@ -59,7 +59,7 @@ let map;
         animateArrival(function animateCallback() {
             displayUpdate(unicorn.Name + ' has arrived. Giddy up!', unicorn.Color);
             WildRydes.map.unsetLocation();
-
+            msg = `${unicorn.Name} + has arrived. Giddy up!, ${unicorn.Color}`
             console.log(msg);
             speak(unicorn.Name + ' has arrived. Giddy up!', unicorn.Color);
 
@@ -232,8 +232,8 @@ function getWeather(loc, unicorn) {
             // Temp is ${KtoF(weather.current.temp)} degrees,
             // Wind at ${weather.current.wind_speed} miles per hour, out of the ${windDirection(weather.current.wind_deg, true)} ,
             // Sunset will be at ${niceTime(weather.current.sunset, weather.timezone_offset)}`
-            console.log(msg);
-            speak(`Temp is ${KtoF(weather.current.temp)} degrees`);
+           // console.log(msg);
+            //speak(`Temp is ${KtoF(weather.current.temp)} degrees`);
         });
 }
 
