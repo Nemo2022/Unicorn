@@ -60,6 +60,9 @@ let map;
             displayUpdate(unicorn.Name + ' has arrived. Giddy up!', unicorn.Color);
             WildRydes.map.unsetLocation();
 
+            console.log(msg);
+            speak(unicorn.Name + ' has arrived. Giddy up!', unicorn.Color);
+
             $('#request').prop('disabled', 'disabled');
             $('#request').text('Set Pickup');
         });
