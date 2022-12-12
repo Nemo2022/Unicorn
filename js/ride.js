@@ -47,17 +47,19 @@ let map;
     function completeRequest(result, pickupLocation) {
         var unicorn;
         var pronoun;
-        getWeather(pickupLocation)
+
         console.log('Response received from API: ', result);
         unicorn = result.Unicorn;
         pronoun = unicorn.Gender === 'Male' ? 'his' : 'her';
         displayUpdate(unicorn.Name + ', your ' + unicorn.Color + ' unicorn, is on ' + pronoun + ' way.', unicorn.Color);
 
         console.log(pickupLocation);
-        //  get the local weather, find nearby restaurants, movies
+        //  get the local weather.
         let searchText = document.getElementById('search').value;
-        getWeather(pickupLocation, unicorn)
-
+        if (searchText.length === 0)
+            getWeather(pickupLocation, unicorn)
+        else
+            bookSearch(searchText);
         animateArrival(function animateCallback() {
             displayUpdate(unicorn.Name + ' has arrived. Giddy up!', unicorn.Color);
             WildRydes.map.unsetLocation();
@@ -178,6 +180,45 @@ let map;
 //      nice utility method to show message to user
 function displayUpdate(text, color='green') {
     $('#updates').prepend($(`<li style="background-color:${color}">${text}</li>`));
+}
+
+//  convert degrees into english directions
+//  North is 11.25 degrees on both sides of 0/360 degrees.
+//  We add 11.25 to push all directions 11.25 degrees clockwise
+//  Then we mod the degrees with 360 to force all results between 0 and 359
+//  finally we can divide by 22.5 because we have 16 (360 / 16 equals 22.5) different wind directions
+function windDirection(degrees, long) {
+    let direction;
+    if (long)
+        direction =["North",  "North by North East", "North East",  "East by North East",
+            "East",    "East by South East", "South East", "South by South East",
+            "South",  "South by South West", "South West",  "West by South West",
+            "West",    "West by North West", "North West", "North by North West",
+            "North"];
+    else
+        direction = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N"];
+
+    degrees = Math.round(degrees + 11.25) % 360;
+    let index = Math.floor(degrees / 22.5);
+    return direction[index];
+}
+
+function bookSearch(searchText) {
+    fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchText}`)
+        .then(resp => resp.json())          //  wait for the response and convert it to JSON
+        .then(books => showBooks(books));
+}
+
+function showBooks(books) {
+    let b = books.items[0];
+    let msg =
+        `<img src=${b.volumeInfo.imageLinks.smallThumbnail} height='120px' alt=""><br>
+        You might enjoy <a href="${b.saleInfo.buyLink}">${b.volumeInfo.title}</a> 
+        written by ${b.volumeInfo.authors[0]}<br> 
+        ${b.volumeInfo.pageCount} pages. Purchase for ${b.saleInfo.listPrice.amount}<br> 
+        ${b.volumeInfo.description.substring(0,200)}`;
+    displayUpdate(msg, 'yellow');
+    speak(`You might enjoy ${b.volumeInfo.title} written by ${b.volumeInfo.authors[0]}`)
 }
 
 function getWeather(loc, unicorn) {
