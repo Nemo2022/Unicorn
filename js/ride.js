@@ -61,7 +61,7 @@ let map;
             WildRydes.map.unsetLocation();
             msg = `${unicorn.Color} + ${unicorn.Name} + has arrived!`
             console.log(msg);
-            speak(unicorn.Color + unicorn.Name + ' has arrived. Giddy up!' );
+            speak(unicorn.Color + unicorn.Name + ' has arrived!' );
 
             $('#request').prop('disabled', 'disabled');
             $('#request').text('Set Pickup');
