@@ -59,7 +59,7 @@ let map;
         animateArrival(function animateCallback() {
             displayUpdate(unicorn.Name + ' has arrived. Giddy up!', unicorn.Color);
             WildRydes.map.unsetLocation();
-            msg = `${unicorn.Name} + has arrived. Giddy up!, ${unicorn.Color}`
+            msg = `${unicorn.Color} + ${unicorn.Name} + has arrived!`
             console.log(msg);
             speak(unicorn.Name + ' has arrived. Giddy up!', unicorn.Color);
 
