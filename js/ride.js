@@ -55,7 +55,7 @@ let map;
 
         console.log(pickupLocation);
         //  get the local weather.
-        getWeather(pickupLocation, unicorn)
+        //getWeather(pickupLocation, unicorn)
         animateArrival(function animateCallback() {
             displayUpdate(unicorn.Name + ' has arrived. Giddy up!', unicorn.Color);
             WildRydes.map.unsetLocation();
