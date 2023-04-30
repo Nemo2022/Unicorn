@@ -203,7 +203,7 @@ function windDirection(degrees, long) {
 }
 
 
-/*function getWeather(loc, unicorn) {
+function getWeather(loc, unicorn) {
     let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${loc.latitude}&lon=${loc.longitude}&exclude=minutely,hourly&appid=a099a51a6362902523bbf6495a0818aa`;
     fetch(url)
         .then(response => response.json())  //  wait for the response and convert it to JSON
@@ -290,4 +290,4 @@ function KtoF(temp) {
     temp -= 273;
     temp = temp * 9 / 5 + 32;
     return temp.toFixed(0);
-}*/
+}
